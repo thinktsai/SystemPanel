@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title_edittext_preference">Edit text preference</string>
+    <string name="summary_edittext_preference">An example that uses an edit text dialog</string>
+    <string name="dialog_title_edittext_preference">Enter your favorite animal</string>
+    <string name="title_checkbox_preference">Checkbox preference</string>
+    <string name="summary_checkbox_preference">This is a checkbox</string>
+    <string name="app_name">SystemPanel</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="inline_preferences">In-line preferences</string>
+    <string name="dialog_based_preferences">Dialog-based preferences</string>
+    <string name="launch_preferences">Launch preferences</string>
+    <string name="preference_attributes">Preference attributes</string>
+    <string name="title_list_preference">List preference</string>
+    <string name="summary_list_preference">An example that uses a list dialog</string>
+    <string name="dialog_title_list_preference">Choose one</string>
+    <string name="title_screen_preference">Screen preference</string>
+    <string name="summary_screen_preference">Shows another screen of preferences</string>
+    <string name="title_fragment_preference">Fragment preference</string>
+    <string name="summary_fragment_preference">Shows another fragment of preferences</string>
+    <string name="title_next_screen_toggle_preference">Toggle preference</string>
+    <string name="summary_next_screen_toggle_preference">Preference that is on the next screen but same hierarchy</string>
+    <string name="title_intent_preference">Intent preference</string>
+    <string name="summary_intent_preference">Launches an Activity from an Intent</string>
+    <string name="title_my_preference">My preference</string>
+    <string name="summary_my_preference">This is a custom counter preference</string>
+    <string name="title_advanced_toggle_preference">Haunted preference</string>
+    <string name="summary_on_advanced_toggle_preference">I\'m on! :)</string>
+    <string name="summary_off_advanced_toggle_preference">I\'m off! :(</string>
+    <string name="title_parent_preference">Parent checkbox preference</string>
+    <string name="summary_parent_preference">This is visually a parent</string>
+    <string name="title_child_preference">Child checkbox preference</string>
+    <string name="summary_child_preference">This is visually a child</string>
+    <string name="device_preferences">Device</string>
+
+    <!-- Date & time settings screen title -->
+    <string name="date_and_time">Date &amp; time</string>
+    <!-- The title of the activity to pick a time zone. -->
+    <string name="choose_timezone">Choose time zone</string>
+
+    <string name="date_and_time_settings_title">Date &amp; time</string>
+    <!-- Title for Date & Time settings screen in SetupWizard [CHAR LIMIT=40] -->
+    <string name="date_and_time_settings_title_setup_wizard">Set date and time</string>
+    <!-- Main Settings screen setting option summary text for the item to go into the date and time settings. -->
+    <string name="date_and_time_settings_summary">Set date, time, time zone, &amp; formats</string>
+    <!-- Date & time setting screen setting check box title if the date and time should be determined automatically [CHAR LIMIT=30] -->
+    <string name="date_time_auto">Automatic date &amp; time</string>
+    <!-- Date & time setting screen setting option summary text when Automatic check box is selected
+        (that is, when date and time should be determined automatically) [CHAR LIMIT=100] -->
+    <string name="date_time_auto_summaryOn">Use network-provided time</string>
+    <!-- Date & time setting screen setting option summary text when Automatic check box is clear
+        [CHAR LIMIT=100] -->
+    <string name="date_time_auto_summaryOff">Use network-provided time</string>
+    <!-- Date & time setting screen setting check box title if the time zone should be determined automatically [CHAR LIMIT=30] -->
+    <string name="zone_auto">Automatic time zone</string>
+    <!-- Date & time setting screen setting option summary text when Automatic time zone check box is selected (that is, when date and time should be determined automatically)
+        [CHAR LIMIT=100]  -->
+    <string name="zone_auto_summaryOn">Use network-provided time zone</string>
+    <string name="zone_auto_summaryOff">Use network-provided time zone</string>
+    <!-- Date & time setting screen setting check box title [CHAR LIMIT=30] -->
+    <string name="date_time_24hour_title">24\u2011hour format</string>
+    <!-- Date & time setting screen setting check box title -->
+    <string name="date_time_24hour">Use 24-hour format</string>
+    <!-- Date & time setting screen setting option title [CHAR LIMIT=30] -->
+    <string name="date_time_set_time_title">Time</string>
+    <!-- Date & time setting screen setting option title -->
+    <string name="date_time_set_time">Set time</string>
+    <!-- Date & time setting screen setting option title [CHAR LIMIT=30] -->
+    <string name="date_time_set_timezone_title">Time zone</string>
+    <!-- Date & time setting screen setting option title -->
+    <string name="date_time_set_timezone">Select time zone</string>
+    <!-- Date & time setting screen setting option title [CHAR LIMIT=30] -->
+    <string name="date_time_set_date_title">Date</string>
+    <!-- Date & time setting screen setting option title -->
+    <string name="date_time_set_date">Set date</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

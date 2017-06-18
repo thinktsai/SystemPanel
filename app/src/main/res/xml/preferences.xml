@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <PreferenceCategory
+        android:title="@string/device_preferences">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="key_sound_switch"
+            android:title="Key sound" />
+
+        <EditTextPreference
+            android:key="battery_preference"
+            android:title="Battery charging threshold"
+            android:summary="90%"
+            android:dialogTitle="Battery charging threshold" />
+    </PreferenceCategory>
+                
+    <PreferenceCategory
+        android:title="System">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="key_debug_switch"
+            android:title="Debug mode" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="key_autoreboot_switch"
+            android:title="Auto reboot" />
+        <EditTextPreference
+            android:key="reboot_time_preference"
+            android:dependency="key_autoreboot_switch"
+            android:layout="?android:attr/preferenceLayoutChild"
+            android:title="Auto reboot interval"
+            android:summary="24 hours"
+            android:dialogTitle="Auto reboot interval" />
+        <Preference android:title="Factory reset"
+            android:key="factory_reset_button"
+            android:summary="Reset device to default state"/>
+        <Preference
+            android:key="date_time"
+            android:title="Date &amp; Time"
+            android:summary="@string/summary_screen_preference">
+        </Preference>
+        <com.ctos.systempanel.ApplicationPreference
+                android:key="default_app"
+                android:title="Select default  application"
+                android:summary="Default start up application"
+                 />
+
+        <Preference
+            android:key="about"
+            android:title="About">
+        </Preference>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

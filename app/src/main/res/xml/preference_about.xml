@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    android:title="About"
+    >
+    <Preference
+        android:title="Model number"
+        android:key="model_number"
+        android:summary="Saturn S1000"/>
+    <Preference android:title="Serial number"
+        android:key="serial_number"
+        android:summary="0000000001"/>
+    <Preference android:title="Secure module version"
+        android:key="secure_module_version"
+        android:summary="0.0.0.9"/>
+    <Preference android:title="EMV version"
+        android:key="emv_version"
+        android:summary="0.0.0.8"/>
+    <Preference android:title="EMVCL version"
+        android:key="emvcl_version"
+        android:summary="0.0.0.7"/>
+    <Preference android:title="EMVCL version"
+        android:key="emvcl_version"
+        android:summary="0.0.0.7"/>
+    <Preference android:title="KMS version"
+        android:key="kms_version"
+        android:summary="0.0.0.6"/>
+    <Preference android:title="ULD key hash"
+        android:key="uld_key_hash"
+        android:summary="AAAAAAAAAAAAAA"/>
+    <Preference android:title="Boot loader version"
+        android:key="bootloader_version"
+        android:summary="0.1"/>
+    <Preference android:title="Little kernel version"
+        android:key="little_kernel_version"
+        android:summary="0.1"/>
+    <Preference android:title="Limux kernel version"
+        android:key="linux_kernel_version"
+        android:summary="3.10"/>
+    <Preference android:title="Android system version"
+        android:key="android_system_version"
+        android:summary="6.0.1.xxxx"/>
+
+</PreferenceScreen>
