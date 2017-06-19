@@ -197,8 +197,8 @@ public class MainActivity extends AppCompatActivity {
 			// Load the preferences from an XML resource
 			addPreferencesFromResource(R.xml.preferences);
 
-			bindPreferenceSummaryToValue(findPreference("reboot_time_preference"));
-//			bindPreferenceSummaryToValue(findPreference("list_preference"));
+//			bindPreferenceSummaryToValue(findPreference("reboot_time_preference"));
+			bindPreferenceSummaryToValue(findPreference("battery_preference"));
 //			bindPreferenceSummaryToValue(findPreference("key_sound_switch"));
 
 			Preference button = findPreference("factory_reset_button");
@@ -219,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
 
         public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
+            getPreferenceManager().setSharedPreferencesName("app");
 			// Load the preferences from an XML resource
 			addPreferencesFromResource(R.xml.preference_datetime);
 		}

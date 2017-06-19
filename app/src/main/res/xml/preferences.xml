@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     
     <PreferenceCategory
         android:title="@string/device_preferences">
@@ -8,11 +9,16 @@
             android:key="key_sound_switch"
             android:title="Key sound" />
 
-        <EditTextPreference
+        <com.ctos.systempanel.NumberPickerPreference
             android:key="battery_preference"
+            android:defaultValue="90"
+            app:maxValue="100"
+            app:minValue="50"
             android:title="Battery charging threshold"
-            android:summary="90%"
+            android:summary="90"
             android:dialogTitle="Battery charging threshold" />
+
+
     </PreferenceCategory>
                 
     <PreferenceCategory
@@ -25,12 +31,15 @@
             android:defaultValue="true"
             android:key="key_autoreboot_switch"
             android:title="Auto reboot" />
-        <EditTextPreference
-            android:key="reboot_time_preference"
+        <com.ctos.systempanel.NumberPickerPreference
             android:dependency="key_autoreboot_switch"
-            android:layout="?android:attr/preferenceLayoutChild"
+            android:key="reboot_time_preference"
+            android:defaultValue="24"
+            android:persistent="false"
+            app:maxValue="24"
+            app:minValue="12"
             android:title="Auto reboot interval"
-            android:summary="24 hours"
+            android:summary="24"
             android:dialogTitle="Auto reboot interval" />
         <Preference android:title="Factory reset"
             android:key="factory_reset_button"

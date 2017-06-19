@@ -2,12 +2,12 @@
     <resources>
     <color name="colorAccent">#ff9800</color>
 
-    <color name="colorPrimary">#5c6bc0</color>
-    <color name="colorPrimaryDark">#4254b3</color>
+    <color name="colorPrimary">#ff6b00</color>
+    <color name="colorPrimaryDark">#bf54b3</color>
 
 
-    <color name="Light.Primary">#5c6bc0</color>
-    <color name="Light.PrimaryDark">#4254b3</color>
+    <color name="Light.Primary">#ff6b00</color>
+    <color name="Light.PrimaryDark">#bf54b3</color>
     <color name="Light.Background">#ffffff</color>
     <color name="Light.GreyBackground">#f9f9f9</color>
     <color name="Light.TextColor">#616161</color>
