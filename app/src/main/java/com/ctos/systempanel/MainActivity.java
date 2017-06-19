@@ -1,5 +1,6 @@
 package com.ctos.systempanel;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.settings_toolbar);
-        toolbar.setTitle("SystemPaenl");
+        toolbar.setTitle("SystemPanel");
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_arrow_back_white_24px));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -50,11 +51,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        showFragment(PrefsFragment.TAG, true);
-//  We could have condensed the 5 lines into 1 line of code. 		
-//		getFragmentManager().beginTransaction()
-//				.replace(android.R.id.content, new PrefsFragment()).commit();
-
+        showFragment(PrefsFragment.TAG, false);
 	}
 
 	protected void showFragment(String tag, boolean addToBackStack) {
@@ -63,16 +60,16 @@ public class MainActivity extends AppCompatActivity {
 			switch (tag) {
 				case DatetimeFragment.TAG:
 					fragment = new DatetimeFragment();
-	//				toolbar.setTitle("Date Time");
+					toolbar.setTitle("Date & Time");
 					break;
                 case AboutFragment.TAG:
                     fragment = new AboutFragment();
-                    //				toolbar.setTitle("Date Time");
+					toolbar.setTitle("About");
                     break;
 				case PrefsFragment.TAG:
 				default:
 					fragment = new PrefsFragment();
-	//				toolbar.setTitle("Settings");
+					toolbar.setTitle("SystemPanel");
 					break;
 			}
 		}
@@ -138,6 +135,12 @@ public class MainActivity extends AppCompatActivity {
 	public static class PrefsFragment extends PreferenceFragment {
         public static final String TAG = "PrefsFragment";
 
+		@Override
+		@SuppressLint("DefaultLocale")
+		public void onResume() {
+			super.onResume();
+			((MainActivity) getActivity()).toolbar.setTitle("SystemPanel");
+		}
 
         @Override
         public boolean onPreferenceTreeClick(PreferenceScreen screen, Preference preference) {
@@ -149,6 +152,12 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if (key.contentEquals("about")) {
                     ((MainActivity) getActivity()).showFragment(AboutFragment.TAG, true);
+                    return true;
+                }
+                else if (key.contentEquals("default_app")) {
+                    Intent intent = new Intent(getActivity(), AppsSelectionActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
                     return true;
                 }
             }
@@ -202,7 +211,6 @@ public class MainActivity extends AppCompatActivity {
 			});
 
 			setHasOptionsMenu(true);
-
 		}
 	}
 
@@ -211,7 +219,6 @@ public class MainActivity extends AppCompatActivity {
 
         public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
-
 			// Load the preferences from an XML resource
 			addPreferencesFromResource(R.xml.preference_datetime);
 		}

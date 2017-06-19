@@ -40,7 +40,7 @@
             android:title="Date &amp; Time"
             android:summary="@string/summary_screen_preference">
         </Preference>
-        <com.ctos.systempanel.ApplicationPreference
+        <Preference
                 android:key="default_app"
                 android:title="Select default  application"
                 android:summary="Default start up application"
