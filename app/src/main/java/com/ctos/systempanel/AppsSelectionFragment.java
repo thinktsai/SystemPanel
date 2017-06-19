@@ -52,6 +52,7 @@ public class AppsSelectionFragment extends Fragment {
     private ViewSwitcher viewSwitcher;
     private ListView grid;
     private AppAdapter appInfoAdapter;
+    private AppInfo mAppInfo = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -11,8 +11,8 @@
         <item name="android:windowBackground">@color/Light.GreyBackground</item>
 
         <item name="android:textColorPrimary">@color/Light.TextColor</item>
-        <item name="android:textColor">@color/Light.TextColor</item>
-        <item name="android:textColorSecondary">@color/Light.TextColorSec</item>
+        <item name="android:textColor">@color/primary_text_color_selector</item>
+        <item name="android:textColorSecondary">@color/secondary_text_color_selector</item>
     </style>
 
 </resources>
