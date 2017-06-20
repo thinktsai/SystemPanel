@@ -219,6 +219,20 @@ public class MainActivity extends AppCompatActivity {
 	public static class DatetimeFragment extends PreferenceFragment {
         public static final String TAG = "DatetimeFragment";
 
+		@Override
+		public boolean onPreferenceTreeClick(PreferenceScreen screen, Preference preference) {
+			if (isAdded() && preference.hasKey()) {
+				String key = preference.getKey();
+				if (key.contentEquals("timezone")) {
+					Intent intent = new Intent(getActivity(), TimeZoneSelectionActivity.class);
+					intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+					startActivity(intent);
+					return true;
+				}
+			}
+			return super.onPreferenceTreeClick(screen, preference);
+		}
+
         public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
             getPreferenceManager().setSharedPreferencesName("app");

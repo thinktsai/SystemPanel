@@ -15,7 +15,7 @@
             android:key="date"
             android:dependency="auto_time"
             android:title="@string/date_time_set_date"
-            android:defaultValue="2014-08-01"
+            android:defaultValue="20140801"
             android:summary="03/10/2008"
             />
         <com.ctos.systempanel.TimePreference
@@ -24,7 +24,7 @@
             android:title="@string/date_time_set_time"
             android:defaultValue="1200"
             android:summary="0"/>
-        <com.ctos.systempanel.TimeZonePreference
+    <Preference
             android:key="timezone"
             android:dependency="auto_zone"
             android:title="@string/date_time_set_timezone"
