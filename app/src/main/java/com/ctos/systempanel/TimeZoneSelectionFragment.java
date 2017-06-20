@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.content.res.XmlResourceParser;
 import android.graphics.Typeface;
 import android.icu.text.TimeZoneNames;
 import android.os.AsyncTask;
@@ -28,6 +30,10 @@ import android.widget.ViewSwitcher;
 //import com.benny.openlauncher.util.AppManager;
 //import com.benny.openlauncher.util.AppSettings;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -162,18 +168,65 @@ public class TimeZoneSelectionFragment extends Fragment {
     }
 
 
+    private String[] loadXmlData() {
+        XmlResourceParser xmlParser = getResources().getXml(R.xml.timezones);
+
+        ArrayList<String> list_zone = new ArrayList();
+        try {
+            int event = xmlParser.getEventType();
+            while (event != XmlPullParser.END_DOCUMENT) {
+                switch (event) {
+                    case XmlPullParser.START_DOCUMENT:
+                        break;
+                    case XmlPullParser.START_TAG:
+                        if (xmlParser.getName().equals("timezone")) {
+                            list_zone.add(xmlParser.getAttributeValue(0));
+                        }
+                        break;
+                    case XmlPullParser.TEXT:
+                        break;
+                    case XmlPullParser.END_TAG:
+                        break;
+                    default:
+                        break;
+                }
+                event = xmlParser.next();
+            }
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String s[] = new String[list_zone.size()];
+        return list_zone.toArray(s);
+    }
+
+
     private void prepareData() {
 
 
-        for (String tz : TimeZone.getAvailableIDs()) {
-            ZoneInfo tempZoneInfo = new ZoneInfo(
-                    "GMT" + TimeZone.getTimeZone(tz).getRawOffset() / 3600000 + "  " + tz,
-                    TimeZone.getTimeZone(tz).getDisplayName(),
-                    getResources().getDrawable(R.drawable.ic_arrow_back_white_24px),
-                    false
-            );
-            list_activities_final.add(tempZoneInfo);
+        for (String id : loadXmlData()) {
+            TimeZone tz = TimeZone.getTimeZone(id);
+            if (tz != null) {
+                int offset = tz.getRawOffset();
+                String GMT = "GMT";
+                if (offset >= 0)
+                    GMT = "GMT+";
+                if ((offset % 3600000) == 0)
+                    GMT += offset / 3600000 + ":00";
+                else
+                    GMT += offset / 3600000 + ":" + (offset % 3600000) / 60000;
+                ZoneInfo tempZoneInfo = new ZoneInfo(
+                        GMT,
+                        id,
+                        getResources().getDrawable(R.drawable.ic_arrow_back_white_24px),
+                        false
+                );
+                list_activities_final.add(tempZoneInfo);
+            }
         }
+
     }
 
     @SuppressWarnings("unchecked")
