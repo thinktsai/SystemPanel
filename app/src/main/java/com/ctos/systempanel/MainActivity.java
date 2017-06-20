@@ -158,6 +158,8 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(getActivity(), AppsSelectionActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
+					String appName = intent.getStringExtra("APP");
+					findPreference("default_app").setSummary(appName);
                     return true;
                 }
             }

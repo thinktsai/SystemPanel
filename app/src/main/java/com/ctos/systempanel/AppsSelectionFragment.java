@@ -211,6 +211,8 @@ public class AppsSelectionFragment extends Fragment {
                         icon.showPrevious();
                     }
                 }
+                getActivity().getIntent().putExtra("APP", appInfo.getName());
+                confirmSelection();
             }
         });
     }
