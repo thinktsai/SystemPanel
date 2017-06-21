@@ -12,6 +12,7 @@
         <com.ctos.systempanel.NumberPickerPreference
             android:key="battery_preference"
             android:defaultValue="90"
+            android:persistent="false"
             app:maxValue="100"
             app:minValue="50"
             android:title="Battery charging threshold"
@@ -44,15 +45,22 @@
         <Preference android:title="Factory reset"
             android:key="factory_reset_button"
             android:summary="Reset device to default state"/>
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="enable_password_switch"
+            android:title="Enable password" />
+        <Preference
+            android:title="Change passwrod"
+            android:dependency="enable_password_switch"
+            android:key="change_password" />
         <Preference
             android:key="date_time"
-            android:title="Date &amp; Time"
-            android:summary="@string/summary_screen_preference">
+            android:title="Date &amp; Time">
         </Preference>
         <Preference
                 android:key="default_app"
                 android:title="Select default  application"
-                android:summary="Default start up application"
+            android:summary=""
                  />
 
         <Preference

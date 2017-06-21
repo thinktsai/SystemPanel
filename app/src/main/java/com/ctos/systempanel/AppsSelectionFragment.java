@@ -2,6 +2,7 @@ package com.ctos.systempanel;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
@@ -30,6 +31,7 @@ import android.widget.ViewSwitcher;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 
 
@@ -58,14 +60,6 @@ public class AppsSelectionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.request, container, false);
         switcherLoad = (ViewSwitcher) rootView.findViewById(R.id.viewSwitcherLoadingMain);
-
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab_rq);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                confirmSelection();
-            }
-        });
 
         if (taskList.getStatus() == AsyncTask.Status.PENDING) {
             // My AsyncTask has not started yet
@@ -211,8 +205,10 @@ public class AppsSelectionFragment extends Fragment {
                         icon.showPrevious();
                     }
                 }
-                getActivity().getIntent().putExtra("APP", appInfo.getName());
-                confirmSelection();
+                Intent intent = getActivity().getIntent();
+                intent.putExtra("APP", appInfo.getName());
+                getActivity().setResult(RESULT_OK, intent);
+                getActivity().finish();
             }
         });
     }

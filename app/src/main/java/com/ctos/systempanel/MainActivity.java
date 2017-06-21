@@ -21,6 +21,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.RingtonePreference;
+import android.preference.SwitchPreference;
 import android.text.TextUtils;
 import android.util.Log;
 import android.content.Context;
@@ -30,15 +31,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import java.util.List;
+import java.util.TimeZone;
 
 import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity {
 	protected Toolbar toolbar;
 
+    public static CTOSInfo ctosInfo;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+        ctosInfo = new CTOSInfo();
 
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.settings_toolbar);
@@ -52,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         showFragment(PrefsFragment.TAG, false);
-	}
+    }
 
 	protected void showFragment(String tag, boolean addToBackStack) {
 		PreferenceFragment fragment = (PreferenceFragment) getFragmentManager().findFragmentByTag(tag);
@@ -64,9 +70,9 @@ public class MainActivity extends AppCompatActivity {
 					break;
                 case AboutFragment.TAG:
                     fragment = new AboutFragment();
-					toolbar.setTitle("About");
+                    toolbar.setTitle("About");
                     break;
-				case PrefsFragment.TAG:
+                case PrefsFragment.TAG:
 				default:
 					fragment = new PrefsFragment();
 					toolbar.setTitle("SystemPanel");
@@ -105,8 +111,22 @@ public class MainActivity extends AppCompatActivity {
 			} else {
 				// For all other preferences, set the summary to the value's
 				// simple string representation.
-				preference.setSummary(stringValue);
-			}
+                String key = preference.getKey();
+                if (key.contentEquals("battery_preference")) {
+                    preference.setSummary(stringValue + "%");
+                    if (!stringValue.isEmpty())
+                        ctosInfo.setBatteryThreshold(Integer.parseInt(stringValue));
+                } else if (key.contentEquals("reboot_time_preference")) {
+                    preference.setSummary(stringValue + " hours");
+                    if (!stringValue.isEmpty())
+                        ctosInfo.setRebootInterval(Integer.parseInt(stringValue));
+                } else if (key.contentEquals("ntp_server")) {
+                    preference.setSummary(stringValue);
+                    if (!stringValue.isEmpty())
+                        ctosInfo.setNTPServer(stringValue);
+                } else
+                    preference.setSummary(stringValue);
+            }
 			return true;
 		}
 	};
@@ -134,13 +154,26 @@ public class MainActivity extends AppCompatActivity {
 
 	public static class PrefsFragment extends PreferenceFragment {
         public static final String TAG = "PrefsFragment";
+        private int SECOND_ACTIVITY_RESULT_CODE = 100;
 
-		@Override
+        @Override
 		@SuppressLint("DefaultLocale")
 		public void onResume() {
 			super.onResume();
 			((MainActivity) getActivity()).toolbar.setTitle("SystemPanel");
 		}
+
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+
+            if (requestCode == SECOND_ACTIVITY_RESULT_CODE) {
+                if (resultCode == RESULT_OK) {
+                    String returnString = data.getStringExtra("APP");
+                    findPreference("default_app").setSummary(returnString);
+                }
+            }
+        }
 
         @Override
         public boolean onPreferenceTreeClick(PreferenceScreen screen, Preference preference) {
@@ -149,27 +182,30 @@ public class MainActivity extends AppCompatActivity {
                 if (key.contentEquals("date_time")) {
                     ((MainActivity) getActivity()).showFragment(DatetimeFragment.TAG, true);
                     return true;
-                }
-                else if (key.contentEquals("about")) {
+                } else if (key.contentEquals("about")) {
                     ((MainActivity) getActivity()).showFragment(AboutFragment.TAG, true);
                     return true;
-                }
-                else if (key.contentEquals("default_app")) {
+                } else if (key.contentEquals("default_app")) {
                     Intent intent = new Intent(getActivity(), AppsSelectionActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivityForResult(intent, SECOND_ACTIVITY_RESULT_CODE);
+                    return true;
+                } else if (key.contentEquals("change_password")) {
+                    Intent intent = new Intent(getActivity(), SignupActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
-					String appName = intent.getStringExtra("APP");
-					findPreference("default_app").setSummary(appName);
                     return true;
                 }
+
             }
             return super.onPreferenceTreeClick(screen, preference);
         }
 
         private void resetToDefault() {
-		}
-		private void resetToDefaultDialog(Context context){
-			AlertDialog.Builder builder;
+        }
+
+        private void resetToDefaultDialog(Context context) {
+            AlertDialog.Builder builder;
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 				builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
 			} else {
@@ -199,9 +235,67 @@ public class MainActivity extends AppCompatActivity {
 			// Load the preferences from an XML resource
 			addPreferencesFromResource(R.xml.preferences);
 
-//			bindPreferenceSummaryToValue(findPreference("reboot_time_preference"));
-			bindPreferenceSummaryToValue(findPreference("battery_preference"));
-//			bindPreferenceSummaryToValue(findPreference("key_sound_switch"));
+            NumberPickerPreference reboot_time = (NumberPickerPreference) findPreference("reboot_time_preference");
+            NumberPickerPreference battery_threshold = (NumberPickerPreference) findPreference("battery_preference");
+            bindPreferenceSummaryToValue(reboot_time);
+            bindPreferenceSummaryToValue(battery_threshold);
+            findPreference("default_app").setSummary(ctosInfo.getDefaultApplication());
+
+            reboot_time.setValue(ctosInfo.getRebootInterval());
+            reboot_time.setSummary(ctosInfo.getRebootInterval() + " hours");
+            battery_threshold.setValue(ctosInfo.getBatteryThreshold());
+            battery_threshold.setSummary(ctosInfo.getBatteryThreshold() + "%");
+
+
+            SwitchPreference keySound = (SwitchPreference) findPreference("key_sound_switch");
+            SwitchPreference enablePassword = (SwitchPreference) findPreference("enable_password_switch");
+            SwitchPreference autoReboot = (SwitchPreference) findPreference("key_autoreboot_switch");
+            SwitchPreference debugMode = (SwitchPreference) findPreference("key_debug_switch");
+
+            keySound.setChecked(ctosInfo.getKeySoundState());
+            enablePassword.setChecked(ctosInfo.getPasswordState());
+            autoReboot.setChecked(ctosInfo.getAutoRebootState());
+            debugMode.setChecked(ctosInfo.getDebugModeState());
+
+            keySound.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference,
+                                                  Object newValue) {
+                    boolean switched = ((SwitchPreference) preference).isChecked();
+                    ctosInfo.setKeySoundState(switched);
+                    return true;
+                }
+            });
+
+            enablePassword.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference,
+                                                  Object newValue) {
+                    boolean switched = ((SwitchPreference) preference).isChecked();
+                    ctosInfo.setPasswordState(switched);
+                    return true;
+                }
+            });
+
+            autoReboot.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference,
+                                                  Object newValue) {
+                    boolean switched = ((SwitchPreference) preference).isChecked();
+                    ctosInfo.setAutoRebootState(switched);
+                    return true;
+                }
+            });
+
+            debugMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference,
+                                                  Object newValue) {
+                    boolean switched = ((SwitchPreference) preference).isChecked();
+                    ctosInfo.setDebugModeState(switched);
+                    return true;
+                }
+            });
 
 			Preference button = findPreference("factory_reset_button");
 			button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -233,13 +327,81 @@ public class MainActivity extends AppCompatActivity {
 			return super.onPreferenceTreeClick(screen, preference);
 		}
 
+        private void setAutoTimeState(boolean enable) {
+
+            Preference ntpServer = findPreference("ntp_server");
+            Preference date = findPreference("date");
+            Preference time = findPreference("time");
+
+            ntpServer.setSummary(ctosInfo.getNTPServer());
+
+            if (!enable) {
+                ntpServer.setEnabled(false);
+                date.setEnabled(true);
+                time.setEnabled(true);
+            } else {
+                ntpServer.setEnabled(true);
+                date.setEnabled(false);
+                time.setEnabled(false);
+            }
+
+        }
+
         public void onCreate(Bundle savedInstanceState) {
-			super.onCreate(savedInstanceState);
+            super.onCreate(savedInstanceState);
             getPreferenceManager().setSharedPreferencesName("app");
-			// Load the preferences from an XML resource
+            // Load the preferences from an XML resource
 			addPreferencesFromResource(R.xml.preference_datetime);
-		}
+
+            bindPreferenceSummaryToValue(findPreference("ntp_server"));
+
+            SwitchPreference autoTime = (SwitchPreference) findPreference("auto_time");
+
+            autoTime.setChecked(ctosInfo.getAutoTimeState());
+            setAutoTimeState(ctosInfo.getAutoTimeState());
+
+            autoTime.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference,
+                                                  Object newValue) {
+                    boolean switched = ((SwitchPreference) preference)
+                            .isChecked();
+                    setAutoTimeState(!switched);
+                    return true;
+                }
+            });
+
+            SwitchPreference hour_24 = (SwitchPreference) findPreference("24_hour");
+            if (android.text.format.DateFormat.is24HourFormat(getActivity()))
+                hour_24.setChecked(true);
+            else
+                hour_24.setChecked(false);
+            hour_24.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference,
+                                                  Object newValue) {
+                    boolean switched = ((SwitchPreference) preference)
+                            .isChecked();
+
+                  /* WRITE_SETTING  permission problem
+                    if (switched)
+                        Settings.System.putString(getActivity().getContentResolver(), Settings.System.TIME_12_24, "24");
+                    else
+                        Settings.System.putString(getActivity().getContentResolver(), Settings.System.TIME_12_24, "12");
+*/
+                    return true;
+                }
+            });
+
+
+        }
+
+        @Override
+        @SuppressLint("DefaultLocale")
+        public void onResume() {
+            if (findPreference("timezone") != null)
+                findPreference("timezone").setSummary(TimeZone.getDefault().getID());
+            super.onResume();
+        }
 	}
-
-
 }

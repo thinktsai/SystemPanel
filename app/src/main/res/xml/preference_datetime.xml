@@ -6,31 +6,30 @@
             android:summaryOn="@string/date_time_auto_summaryOn"
             android:summaryOff="@string/date_time_auto_summaryOff"
             />
-        <SwitchPreference android:key="auto_zone"
-            android:title="@string/zone_auto"
-            android:summaryOn="@string/zone_auto_summaryOn"
-            android:summaryOff="@string/zone_auto_summaryOff"
-            />
+    <EditTextPreference
+        android:key="ntp_server"
+        android:singleLine="true"
+        android:title="NTP server"
+        android:summary="0.0.0.0"
+        android:dialogTitle="NTP Server" />
         <com.ctos.systempanel.DatePreference
             android:key="date"
-            android:dependency="auto_time"
             android:title="@string/date_time_set_date"
-            android:defaultValue="20140801"
-            android:summary="03/10/2008"
+            android:defaultValue="1200"
+            android:summary="0"
             />
         <com.ctos.systempanel.TimePreference
             android:key="time"
-            android:dependency="auto_time"
             android:title="@string/date_time_set_time"
             android:defaultValue="1200"
             android:summary="0"/>
     <Preference
             android:key="timezone"
-            android:dependency="auto_zone"
             android:title="@string/date_time_set_timezone"
             android:summary="GMT-8:00"
             />
-        <SwitchPreference android:key="24 hour"
+    <SwitchPreference
+        android:key="24_hour"
             android:title="@string/date_time_24hour"
             />
 </PreferenceScreen>

@@ -1,6 +1,7 @@
 package com.ctos.systempanel;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -66,14 +67,6 @@ public class TimeZoneSelectionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.request, container, false);
         switcherLoad = (ViewSwitcher) rootView.findViewById(R.id.viewSwitcherLoadingMain);
-
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab_rq);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                confirmSelection();
-            }
-        });
 
         if (taskList.getStatus() == AsyncTask.Status.PENDING) {
             // My AsyncTask has not started yet
@@ -260,7 +253,9 @@ public class TimeZoneSelectionFragment extends Fragment {
                         icon.showPrevious();
                     }
                 }
-                getActivity().getIntent().putExtra("APP", zoneInfo.getName());
+                TimeZone.setDefault(TimeZone.getTimeZone(zoneInfo.getName()));
+                AlarmManager am = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+                am.setTimeZone(zoneInfo.getName());
                 confirmSelection();
             }
         });

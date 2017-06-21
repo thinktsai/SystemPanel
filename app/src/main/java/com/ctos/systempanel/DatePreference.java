@@ -69,7 +69,7 @@ public class DatePreference extends DialogPreference implements Preference.OnPre
     }
 
     protected void setDate(final long time) {
- //       persistLong(time);
+        persistLong(time);
 
         notifyDependencyChange(shouldDisableDependents());
         notifyChanged();

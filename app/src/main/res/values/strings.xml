@@ -86,6 +86,7 @@
     <string name="select_app">Select App</string>
     <string name="off">Off</string>
     <string name="cancel">Cancel</string>
+    <string name="change">Change</string>
     <string name="ok">OK</string>
     <string name="version">Version</string>
     <string name="wallpaper">Wallpaper</string>
@@ -106,5 +107,8 @@
     <string name="volume_level_notification">Notification</string>
     <string name="volume_level_system">System</string>
     <string name="volume_level_media">Media</string>
+    <string name="password">Password</string>
+    <string name="old_password">Old Password</string>
+    <string name="re_enter_password">Re-enter Password</string>
 
 </resources>
