@@ -10,6 +10,7 @@
             android:title="Key sound" />
 
         <com.ctos.systempanel.NumberPickerPreference
+            android:theme="@style/AppTheme.Picker"
             android:key="battery_preference"
             android:defaultValue="90"
             android:persistent="false"

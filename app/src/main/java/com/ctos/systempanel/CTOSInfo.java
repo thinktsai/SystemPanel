@@ -6,11 +6,11 @@ package com.ctos.systempanel;
 
 public class CTOSInfo {
     private int rebootInterval = 20;
-    private boolean autoRebootState = false;
-    private boolean keySoundState = false;
-    private boolean debugModeState = false;
-    private boolean passwordState = false;
-    private boolean autoTimeState = false;
+    private boolean autoRebootState = true;
+    private boolean keySoundState = true;
+    private boolean debugModeState = true;
+    private boolean passwordState = true;
+    private boolean autoTimeState = true;
 
     private int batteryThreshold = 90;
     private CharSequence ntpServer = "192.168.1.1";

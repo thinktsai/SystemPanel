@@ -7,11 +7,13 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 
 /**
  * A {@link android.preference.Preference} that displays a number picker as a dialog.
@@ -47,8 +49,10 @@ public class NumberPickerPreference extends DialogPreference {
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.gravity = Gravity.CENTER;
 
-        picker = new NumberPicker(getContext());
-        picker.setLayoutParams(layoutParams);
+        ContextThemeWrapper cw = new ContextThemeWrapper(getContext(), R.style.AppTheme_Picker);
+
+        picker = new NumberPicker(cw);
+
 
         FrameLayout dialogView = new FrameLayout(getContext());
         dialogView.addView(picker);
