@@ -171,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK) {
                     String returnString = data.getStringExtra("APP");
                     findPreference("default_app").setSummary(returnString);
+                    ctosInfo.setDefaultApplication(returnString);
                 }
             }
         }

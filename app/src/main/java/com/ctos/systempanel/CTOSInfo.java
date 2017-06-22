@@ -27,6 +27,10 @@ public class CTOSInfo {
     private CharSequence uldKeyHash = "AAA";
     private CharSequence defaultApplication = "AAA";
 
+    public CTOSInfo() {
+
+    }
+
     public int getRebootInterval() {
         return rebootInterval;
     }
@@ -73,6 +77,17 @@ public class CTOSInfo {
 
     public void setPasswordState(boolean enable) {
         passwordState = enable;
+    }
+
+    public void setPassword(CharSequence password) {
+    }
+
+    public CharSequence getPasswordHash() {
+        return "";
+    }
+
+    public CharSequence getPasswordHash(CharSequence password) {
+        return "";
     }
 
     public int getBatteryThreshold() {
@@ -137,6 +152,10 @@ public class CTOSInfo {
 
     public CharSequence getDefaultApplication() {
         return defaultApplication;
+    }
+
+    public void setDefaultApplication(CharSequence application) {
+        defaultApplication = application;
     }
 
 }

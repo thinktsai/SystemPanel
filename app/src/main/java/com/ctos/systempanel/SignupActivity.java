@@ -74,6 +74,7 @@ public class SignupActivity extends AppCompatActivity {
         String reEnterPassword = reEnterPasswordText.getText().toString();
 
         // TODO: Implement your own signup logic here.
+        MainActivity.ctosInfo.setPassword(password);
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
@@ -109,6 +110,9 @@ public class SignupActivity extends AppCompatActivity {
 
         if (oldPassword.isEmpty() || password.length() < 4 || password.length() > 10) {
             oldPasswordText.setError("between 4 and 10 alphanumeric characters");
+            valid = false;
+        } else if (!MainActivity.ctosInfo.getPasswordHash(oldPassword).equals(MainActivity.ctosInfo.getPasswordHash())) {
+            oldPasswordText.setError("password is wrong");
             valid = false;
         } else {
             oldPasswordText.setError(null);
