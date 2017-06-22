@@ -3,6 +3,7 @@ package com.ctos.systempanel;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -18,8 +19,8 @@ public class SignupActivity extends AppCompatActivity {
     EditText oldPasswordText;
     EditText passwordText;
     EditText reEnterPasswordText;
-    Button changeButton;
-    Button cancelButton;
+    FloatingActionButton changeButton;
+    FloatingActionButton cancelButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,8 +31,8 @@ public class SignupActivity extends AppCompatActivity {
         passwordText = (EditText) findViewById(R.id.input_password);
         reEnterPasswordText = (EditText) findViewById(R.id.input_reEnterPassword);
 
-        changeButton = (Button) findViewById(R.id.button_change);
-        cancelButton = (Button) findViewById(R.id.button_cancel);
+        changeButton = (FloatingActionButton) findViewById(R.id.button_change);
+        cancelButton = (FloatingActionButton) findViewById(R.id.button_cancel);
 
 
         changeButton.setOnClickListener(new View.OnClickListener() {
@@ -112,7 +113,7 @@ public class SignupActivity extends AppCompatActivity {
             oldPasswordText.setError("between 4 and 10 alphanumeric characters");
             valid = false;
         } else if (!MainActivity.ctosInfo.getPasswordHash(oldPassword).equals(MainActivity.ctosInfo.getPasswordHash())) {
-            oldPasswordText.setError("password is wrong");
+            oldPasswordText.setError("incorrect password");
             valid = false;
         } else {
             oldPasswordText.setError(null);

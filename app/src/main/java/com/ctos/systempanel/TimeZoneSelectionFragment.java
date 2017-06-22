@@ -62,7 +62,7 @@ public class TimeZoneSelectionFragment extends Fragment {
     private ViewSwitcher viewSwitcher;
     private ListView grid;
     private ZoneAdapter zoneInfoAdapter;
-
+    private int selectIndex = 0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.request, container, false);
@@ -197,8 +197,8 @@ public class TimeZoneSelectionFragment extends Fragment {
 
 
     private void prepareData() {
-
-
+        CharSequence timeZone = TimeZone.getDefault().getID();
+        selectIndex = 0;
         for (String id : loadXmlData()) {
             TimeZone tz = TimeZone.getTimeZone(id);
             if (tz != null) {
@@ -216,7 +216,10 @@ public class TimeZoneSelectionFragment extends Fragment {
                         getResources().getDrawable(R.drawable.ic_arrow_back_white_24px),
                         false
                 );
+                if (id.equals(timeZone))
+                    selectIndex = list_activities_final.size();
                 list_activities_final.add(tempZoneInfo);
+
             }
         }
 
@@ -229,10 +232,10 @@ public class TimeZoneSelectionFragment extends Fragment {
         assert grid != null;
         grid.setFastScrollEnabled(true);
         grid.setFastScrollAlwaysVisible(false);
-
         zoneInfoAdapter = new ZoneAdapter(getActivity(), list_activities_final);
 
         grid.setAdapter(zoneInfoAdapter);
+        grid.setSelection(selectIndex);
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> AdapterView, View view, int position, long row) {
                 ZoneInfo zoneInfo = (ZoneInfo) AdapterView.getItemAtPosition(position);
