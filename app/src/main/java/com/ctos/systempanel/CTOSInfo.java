@@ -1,5 +1,7 @@
 package com.ctos.systempanel;
 
+import java.util.Date;
+
 /**
  * Created by Steve_Tsai on 2017/6/21.
  */
@@ -156,6 +158,10 @@ public class CTOSInfo {
 
     public void setDefaultApplication(CharSequence application) {
         defaultApplication = application;
+    }
+
+    public void setSystemTime(Date date) {
+
     }
 
 }

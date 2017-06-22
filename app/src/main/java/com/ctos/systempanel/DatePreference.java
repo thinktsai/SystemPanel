@@ -45,10 +45,9 @@ public class DatePreference extends DialogPreference implements Preference.OnPre
 
     protected void updateSummary(final long time) {
         final DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getContext());
-        final Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(time);
-        setSummary(dateFormat.format(cal.getTime()));
-
+        final Date date = new Date(time);
+        setSummary(dateFormat.format(date.getTime()));
+        MainActivity.ctosInfo.setSystemTime(date);
     }
 
 

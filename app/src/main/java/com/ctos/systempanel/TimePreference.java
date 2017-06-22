@@ -37,6 +37,7 @@ public class TimePreference extends DialogPreference implements Preference.OnPre
         final DateFormat dateFormat = android.text.format.DateFormat.getTimeFormat(getContext());
         final Date date = new Date(time);
         setSummary(dateFormat.format(date.getTime()));
+        MainActivity.ctosInfo.setSystemTime(date);
     }
 
     @Override
