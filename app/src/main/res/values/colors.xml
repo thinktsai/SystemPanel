@@ -16,5 +16,6 @@
     <color name="white">#ffffff</color>
     <color name="transparent">#00000000</color>
     <color name="dark_grey">#ff444444</color>
+    <drawable name="gray_color">#b0b0b0</drawable>
     </resources>
 

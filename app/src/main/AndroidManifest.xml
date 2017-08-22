@@ -12,10 +12,6 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.ctos.systempanel.AppsSelectionActivity"
@@ -31,7 +27,19 @@
             android:name="com.ctos.systempanel.SignupActivity"
             android:enabled="true"
             android:label="@string/app_name"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/NormalActivity.Light" />
+        <activity
+            android:name="com.ctos.systempanel.LoginActivity"
+            android:enabled="true"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:theme="@style/NormalActivity.Light">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
 
     </application>

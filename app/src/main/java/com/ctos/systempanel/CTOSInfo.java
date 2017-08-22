@@ -1,5 +1,10 @@
 package com.ctos.systempanel;
 
+import android.app.AlarmManager;
+import android.content.Context;
+
+import java.security.MessageDigest;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -28,9 +33,18 @@ public class CTOSInfo {
     private CharSequence secureModuleVersion = "AAA";
     private CharSequence uldKeyHash = "AAA";
     private CharSequence defaultApplication = "AAA";
+    private CharSequence passwordHash = "";
 
     public CTOSInfo() {
+        setPassword("00000000");
+    }
 
+    public static String bytesToHex(byte[] in) {
+        final StringBuilder builder = new StringBuilder();
+        for (byte b : in) {
+            builder.append(String.format("%02X", b));
+        }
+        return builder.toString();
     }
 
     public int getRebootInterval() {
@@ -71,6 +85,10 @@ public class CTOSInfo {
 
     public void setDebugModeState(boolean enable) {
         debugModeState = enable;
+        if (enable)
+            PropertyUtility.set("sys.usb.config", "adb");
+        else
+            PropertyUtility.set("sys.usb.config", "adb");
     }
 
     public boolean getPasswordState() {
@@ -82,13 +100,30 @@ public class CTOSInfo {
     }
 
     public void setPassword(CharSequence password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+
+            md.update(password.toString().getBytes("UTF-8")); // Change this to "UTF-16" if needed
+            byte[] digest = md.digest();
+            passwordHash = bytesToHex(digest);
+        } catch (Exception e) {
+        }
     }
 
     public CharSequence getPasswordHash() {
-        return "";
+        return passwordHash;
     }
 
     public CharSequence getPasswordHash(CharSequence password) {
+
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+
+            md.update(password.toString().getBytes("UTF-8")); // Change this to "UTF-16" if needed
+            byte[] digest = md.digest();
+            return bytesToHex(digest);
+        } catch (Exception e) {
+        }
         return "";
     }
 
@@ -160,8 +195,24 @@ public class CTOSInfo {
         defaultApplication = application;
     }
 
-    public void setSystemTime(Date date) {
-
+    /* month : 0 to 11 */
+    private void setSystemTime(int year, int month, int day, int hour, int minute, int second) {
     }
 
+    public void setSystemTime(Context context, Date date) {
+        final Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        setSystemTime(
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH),
+                cal.get(Calendar.HOUR_OF_DAY),
+                cal.get(Calendar.MINUTE),
+                cal.get(Calendar.SECOND)
+        );
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        am.setTime(date.getTime());
+
+    }
 }

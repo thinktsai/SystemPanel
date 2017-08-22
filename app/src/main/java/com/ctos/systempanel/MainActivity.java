@@ -1,8 +1,10 @@
 package com.ctos.systempanel;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
@@ -10,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.hardware.Camera;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -29,7 +32,11 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -38,13 +45,23 @@ import static android.content.ContentValues.TAG;
 public class MainActivity extends AppCompatActivity {
 	protected Toolbar toolbar;
 
-    public static CTOSInfo ctosInfo;
+    public static CTOSInfo ctosInfo = new CTOSInfo();
+    ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-        ctosInfo = new CTOSInfo();
+        View decorView = getWindow().getDecorView();
+// Hide the status bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        decorView.setSystemUiVisibility(uiOptions);
+// Remember that you should never show the action bar if the
+// status bar is hidden, so hide that too if necessary.
+        //       ActionBar actionBar = getActionBar();
+        //       actionBar.hide();
+
+        //       ctosInfo = new CTOSInfo();
 
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.settings_toolbar);
@@ -226,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
 					})
 					.setIcon(android.R.drawable.ic_dialog_alert)
 					.show();
-		}
+        }
 
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
@@ -263,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onPreferenceChange(Preference preference,
                                                   Object newValue) {
                     boolean switched = ((SwitchPreference) preference).isChecked();
-                    ctosInfo.setKeySoundState(switched);
+                    ctosInfo.setKeySoundState(!switched);
                     return true;
                 }
             });
@@ -273,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onPreferenceChange(Preference preference,
                                                   Object newValue) {
                     boolean switched = ((SwitchPreference) preference).isChecked();
-                    ctosInfo.setPasswordState(switched);
+                    ctosInfo.setPasswordState(!switched);
                     return true;
                 }
             });
@@ -283,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onPreferenceChange(Preference preference,
                                                   Object newValue) {
                     boolean switched = ((SwitchPreference) preference).isChecked();
-                    ctosInfo.setAutoRebootState(switched);
+                    ctosInfo.setAutoRebootState(!switched);
                     return true;
                 }
             });
@@ -293,7 +310,7 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onPreferenceChange(Preference preference,
                                                   Object newValue) {
                     boolean switched = ((SwitchPreference) preference).isChecked();
-                    ctosInfo.setDebugModeState(switched);
+                    ctosInfo.setDebugModeState(!switched);
                     return true;
                 }
             });
@@ -335,6 +352,14 @@ public class MainActivity extends AppCompatActivity {
             Preference time = findPreference("time");
 
             ntpServer.setSummary(ctosInfo.getNTPServer());
+
+            final DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(getContext());
+            final Date now = new Date();
+            time.setSummary(timeFormat.format(now.getTime()));
+
+            final DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getContext());
+            date.setSummary(dateFormat.format(now.getTime()));
+
 
             if (!enable) {
                 ntpServer.setEnabled(false);
